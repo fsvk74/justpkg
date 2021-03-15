@@ -2,7 +2,7 @@ echo "Setting up..."
 echo "Welcome to package manager!"
 usage()
 {
-    echo "Usage: $0 <install|delete|upgrade up|build|buildconfig|version -*|show list> <package_name>"
+    echo "Usage: $0 <install|delete|upgrade up|build me|build config|version -*|show list> <package_name>"
     echo -e "\tMade by fsvk74."
 }
 
@@ -37,7 +37,7 @@ if [ "$1" == "build" ]; then
     make -j4
 fi
 
-if [ "$1" == "buildconfig" ]; then
+if [ "$1" == "build config" ]; then
     echo "Running make menuconfig"
     make menuconfig
 fi
