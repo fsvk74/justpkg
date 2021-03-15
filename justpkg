@@ -27,6 +27,7 @@ if [ "$1" == "upgrade" ]; then
     git clone https://www.github.com/fsvk74/justpkg
     mv justpkg/justpkg /usr/bin/justpkg
     chmod +x /usr/bin/justpkg
+    rm -rf justpkg
 fi
 
 if [ "$1" == "build" ]; then
