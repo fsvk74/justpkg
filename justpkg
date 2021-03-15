@@ -2,7 +2,7 @@ echo "Setting up..."
 echo "Welcome to package manager!"
 usage()
 {
-    echo "Usage: $0 <install|delete|upgrade up|build me|build config|version -*|show list> <package_name>"
+    echo "Usage: $0 <install|delete|upgrade up|build me|buildconfig me|version -*|show list> <package_name>"
     echo -e "\tMade by fsvk74."
 }
 
