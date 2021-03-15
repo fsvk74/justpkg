@@ -1,0 +1,4 @@
+1. Copy justpkg.install
+2. $ chmod +x justpkg.install
+3. # ./justpkg.install
+4. RUN THIS TOOL AS ROOT!!!
