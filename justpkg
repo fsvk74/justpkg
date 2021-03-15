@@ -19,7 +19,7 @@ if [ "$1" == "install" ]; then
     echo "Package installed!"
 fi
 
-if [ "$2" == "delete" ]; then
+if [ "$1" == "delete" ]; then
     slackpkg remove $2
 fi
 
