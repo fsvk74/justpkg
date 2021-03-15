@@ -16,6 +16,7 @@ if [ "$1" == "install" ]; then
     echo "Getting package..."
     wget http://f0523616.xsph.ru/pkgs/$2.txz
     upgradepkg --install-new $2.txz
+    rm -rf $2.txz
     echo "Package installed!"
 fi
 
@@ -31,5 +32,15 @@ if [ "$1" == "upgrade" ]; then
 fi
 
 if [ "$1" == "build" ]; then
-    echo "This option doesn't work now."
+    echo "Running make -j4"
+    make -j4
+fi
+
+if [ "$1" == "buildconfig" ]; then
+    echo "Running make menuconfig"
+    make menuconfig
+fi
+
+if [ "$1" == "version" ]; then
+    echo "$0 version is 0.3.1 for Slackware by fsvk74. License: MIT. Source code: https://www.github.com/fsvk74/justpkg"
 fi
