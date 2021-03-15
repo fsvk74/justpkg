@@ -37,7 +37,7 @@ if [ "$1" == "build" ]; then
     make -j4
 fi
 
-if [ "$1" == "build config" ]; then
+if [ "$1" == "buildconfig" ]; then
     echo "Running make menuconfig"
     make menuconfig
 fi
