@@ -1,3 +1,4 @@
 git clone https://github.com/fsvk74/justpkg/
 mv justpkg /usr/bin/justpkg
 chmod +x /usr/bin/justpkg
+rm -rf justpkg
