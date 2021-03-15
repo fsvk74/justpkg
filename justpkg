@@ -1,0 +1,34 @@
+echo "Setting up..."
+echo "Welcome to package manager!"
+usage()
+{
+    echo "Usage: $0 <install|delete|upgrade|build> <package_name>"
+    echo -e "\tMade by fsvk74."
+}
+
+if [ "$2" == "" ]; then
+    echo "ERROR: Enter all needed parameters"
+    usage
+    exit 1
+fi
+
+if [ "$1" == "install" ]; then
+    echo "Getting package..."
+    wget http://f0523616.xsph.ru/$2.tar.xz
+    upgradepkg --install-new $2.tar.xz
+    echo "Package installed!"
+fi
+
+if [ "$2" == "delete" ]; then
+    slackpkg remove $2
+fi
+
+if [ "$1" == "upgrade" ]; then
+    git clone https://www.github.com/fsvk74/justpkg
+    mv justpkg/justpkg /usr/bin/justpkg
+    chmod +x /usr/bin/justpkg
+fi
+
+if [ "$1" == "build" ]; then
+    echo "This option doesn't work now."
+fi
