@@ -2,7 +2,7 @@ echo "Setting up..."
 echo "Welcome to package manager!"
 usage()
 {
-    echo "Usage: $0 <install|delete|upgrade up|build|buildconfig|version> <package_name>"
+    echo "Usage: $0 <install|delete|upgrade up|build|buildconfig|version -*|show list> <package_name>"
     echo -e "\tMade by fsvk74."
 }
 
@@ -27,6 +27,7 @@ fi
 if [ "$1" == "upgrade" ]; then
     git clone https://www.github.com/fsvk74/justpkg
     mv justpkg/justpkg /usr/bin/justpkg
+    mv justpkg/pkgs.list /usr/share/justpkg/pkgs.list
     chmod +x /usr/bin/justpkg
     rm -rf justpkg
 fi
@@ -39,6 +40,11 @@ fi
 if [ "$1" == "buildconfig" ]; then
     echo "Running make menuconfig"
     make menuconfig
+fi
+
+
+if [ "$1" == "show" ]; then
+    cat /usr/share/justpkg/pkgs.list
 fi
 
 if [ "$1" == "version" ]; then
