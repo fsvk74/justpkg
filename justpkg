@@ -14,8 +14,8 @@ fi
 
 if [ "$1" == "install" ]; then
     echo "Getting package..."
-    wget http://f0523616.xsph.ru/$2.tar.xz
-    upgradepkg --install-new $2.tar.xz
+    wget http://f0523616.xsph.ru/pkgs/$2.txz
+    upgradepkg --install-new $2.txz
     echo "Package installed!"
 fi
 
