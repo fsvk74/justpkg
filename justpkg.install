@@ -1,6 +1,0 @@
-git clone https://github.com/fsvk74/justpkg/
-mv justpkg/justpkg /usr/bin/justpkg
-mkdir /usr/share/justpkg
-mv justpkg/pkgs.list /usr/share/justpkg/pkgs.list
-chmod +x /usr/bin/justpkg
-rm -rf justpkg

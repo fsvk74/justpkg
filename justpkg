@@ -1,52 +1,74 @@
-echo "Setting up..."
-echo "Welcome to package manager!"
+#!/bin/bash
+
+# Copyright (c) 2021 fsvk74
+# License: MIT (see LICENSE file)
+# Contributions: EmptiedSoul
+
 usage()
 {
-    echo "Usage: $0 <install|delete|upgrade up|build me|buildconfig me|version -*|show list> <package_name>"
+    echo "Usage: ${0##*/} <install|delete|upgrade up|build me|buildconfig me|version -*|show list> <package_name>"
     echo -e "\tMade by fsvk74."
 }
 
-if [ "$2" == "" ]; then
-    echo "ERROR: Enter all needed parameters"
-    usage
-    exit 1
-fi
-
-if [ "$1" == "install" ]; then
-    echo "Getting package..."
-    wget http://f0523616.xsph.ru/pkgs/$2.txz
-    upgradepkg --install-new $2.txz
-    rm -rf $2.txz
-    echo "Package installed!"
-fi
-
-if [ "$1" == "delete" ]; then
-    slackpkg remove $2
-fi
-
-if [ "$1" == "upgrade" ]; then
-    git clone https://www.github.com/fsvk74/justpkg
-    mv justpkg/justpkg /usr/bin/justpkg
-    mv justpkg/pkgs.list /usr/share/justpkg/pkgs.list
-    chmod +x /usr/bin/justpkg
-    rm -rf justpkg
-fi
-
-if [ "$1" == "build" ]; then
-    echo "Running make -j4"
-    make -j4
-fi
-
-if [ "$1" == "buildconfig" ]; then
-    echo "Running make menuconfig"
-    make menuconfig
-fi
+[[ "$UID" != "0" ]] && {
+	echo "${0##*/}: must be superuser"
+	exit 1
+}
 
 
-if [ "$1" == "show" ]; then
-    cat /usr/share/justpkg/pkgs.list
-fi
-
-if [ "$1" == "version" ]; then
-    echo "$0 version is 0.3.1 for Slackware by fsvk74. License: MIT. Source code: https://www.github.com/fsvk74/justpkg"
-fi
+case $1 in
+	install)
+		[[ -z "$2" ]] && { usage; exit 1; }
+		echo "Getting package..."
+    		wget http://f0523616.xsph.ru/pkgs/$2.txz || {
+			echo "${0##*/}: failed to get package: $2"
+			exit 1
+		}
+		echo "Installing package..."
+    		upgradepkg --install-new $2.txz || {
+			echo "${0##*/}: failed to install package: $2"
+			rm -f $2.txz &>/dev/null
+			exit 1;
+		}
+    		rm -rf $2.txz &>/dev/null
+    		echo "Package installed!"
+	;;
+	delete)
+		[[ -z "$2" ]] && { usage; exit 1; }
+		slackpkg remove $2 || {
+			echo "${0##*/}: failed to remove package: $2"
+			exit 1
+		}
+	;;
+	upgrade)
+		rm -rf justpkg &>/dev/null
+		git clone https://www.github.com/fsvk74/justpkg || {
+			echo "${0##*/}: failed to get updates"
+		}
+		install justpkg/justpkg /usr/bin/justpkg
+		install justpkg/pkgs.list /usr/share/justpkg/pkgs.list
+		chmod +x /usr/bin/justpkg
+    		rm -rf justpkg &>/dev/null
+	;;
+	build)
+		echo "Running make -j$(nproc)..."
+		make -j$(nproc)
+	;;
+	buildconfig)
+		echo "Running make menuconfig..."
+		make menuconfig
+	;;
+	show)
+		cat /usr/share/justpkg/pkgs.list
+	;;
+	version)
+		echo "${0##*/} (0.3.1) for Slackware"
+		echo "Copyright (C) 2021 fsvk74"
+		echo "License: MIT/X11 (see LICENSE file)"
+		echo "Source code repository: <https://github.com/fsvk74/justpkg>"
+	;;
+	*)
+		usage
+		exit 1
+	;;
+esac
